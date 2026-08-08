@@ -61,6 +61,10 @@ pip install -e ".[test,bench]" --no-build-isolation
 
 **Requirements**: CUDA toolkit >= 11.0, PyTorch >= 1.12 (PyTorch 2.4 for Pascal/SM 6.0), a Pascal or Volta GPU.
 
+> **Windows 支持**：本分支已通过验证的 Windows 构建支持（MSVC 参数修复 +
+> CUDA 内置函数全局限定）。验证环境、构建步骤、可复用 wheel 打包方式及
+> V100 测试结果，见 [WINDOWS_BUILD.md](WINDOWS_BUILD.md)。
+
 > **Beta**: This project is under active development. It has been tested with the following configuration:
 > - PyTorch 2.4 (last version supporting SM 6.0 / Pascal)
 > - Transformers 5.4
