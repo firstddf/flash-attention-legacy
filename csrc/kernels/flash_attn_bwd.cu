@@ -266,8 +266,8 @@ flash_attn_bwd_kernel(FlashAttnBwdParams params) {
                 #pragma unroll
                 for (int j = 0; j < D2; j++) {
                     half2 k_val = k2[j];
-                    atomicAdd(&dq_row[j * 2],     ds_scaled * __half2float(k_val.x));
-                    atomicAdd(&dq_row[j * 2 + 1], ds_scaled * __half2float(k_val.y));
+                    ::atomicAdd(&dq_row[j * 2],     ds_scaled * __half2float(k_val.x));
+                    ::atomicAdd(&dq_row[j * 2 + 1], ds_scaled * __half2float(k_val.y));
                 }
             }
         }
@@ -285,8 +285,8 @@ flash_attn_bwd_kernel(FlashAttnBwdParams params) {
         for (int offset = THREADS_PER_KV / 2; offset > 0; offset /= 2) {
             #pragma unroll
             for (int j = 0; j < D; j++) {
-                my_dK[j] += __shfl_down_sync(0xFFFFFFFF, my_dK[j], offset, THREADS_PER_KV);
-                my_dV[j] += __shfl_down_sync(0xFFFFFFFF, my_dV[j], offset, THREADS_PER_KV);
+                my_dK[j] += ::__shfl_down_sync(0xFFFFFFFF, my_dK[j], offset, THREADS_PER_KV);
+                my_dV[j] += ::__shfl_down_sync(0xFFFFFFFF, my_dV[j], offset, THREADS_PER_KV);
             }
         }
     }

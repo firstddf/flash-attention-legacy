@@ -62,9 +62,12 @@ nvcc_flags = [
 ]
 
 # Platform-specific compiler flags
-cxx_flags = ["-O3", "-std=c++17"]
-if sys.platform != "win32":
-    cxx_flags.append("-fdiagnostics-color=always")
+# MSVC ignores GCC-style flags (`-O3`, `-std=c++17`) with warning D9002,
+# leaving the host bridge code compiled with /Od (no optimization).
+if sys.platform == "win32":
+    cxx_flags = ["/O2", "/std:c++17"]
+else:
+    cxx_flags = ["-O3", "-std=c++17", "-fdiagnostics-color=always"]
 
 # ---------------------------------------------------------------------------
 # Extension module
